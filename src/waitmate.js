@@ -191,6 +191,11 @@ export const WaitMate = {
       return WaitMate.start({ ...opts }).then(() => activity)
         .finally(() => WaitMate.stop({ message: 'Done!' }));
     }
+    // manual form: a single plain-object argument is the options bag
+    // (WaitMate.start({ scene: 'dots' }) must not swallow the options)
+    if (activity && typeof activity === 'object') {
+      opts = activity;
+    }
     const scene = SCENES[opts.scene] ? opts.scene : 'walker';
     Stop_(); // clear any previous run
     const overlay = ensureOverlay(opts.message);
